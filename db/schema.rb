@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_17_122338) do
+ActiveRecord::Schema.define(version: 2019_02_17_133242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2019_02_17_122338) do
     t.string "code"
     t.integer "quantity"
     t.decimal "price"
-    t.string "state"
+    t.string "state", default: "out_of_stock"
     t.string "description"
     t.string "internal_reference"
     t.bigint "supplier_detail_id"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2019_02_17_122338) do
     t.string "whodunnit"
     t.text "object"
     t.datetime "created_at"
+    t.json "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 

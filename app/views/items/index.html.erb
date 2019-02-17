@@ -1,0 +1,103 @@
+<%= search_form_for @q do |f| %>
+  <ul class="list-unstyled components">
+        <li class="active">
+        <li>
+          <a href="#searchMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            Search
+          </a>
+          <ul class="collapse list-unstyled" id="searchMenu">
+            <li>
+              <div class="form-group">
+                <%= f.label :code_cont %>
+                <%= f.search_field :code_cont, class: "form-control" %>
+              </div>
+            </li>
+            <li>
+              <div class="form-group">
+                <%= f.label :description_cont %>
+                <%= f.search_field :description_cont, class: "form-control" %>
+              </div>
+            </li>
+            <li>
+              <div class="form-group">
+                <%= f.label :internal_reference_cont %>
+                <%= f.search_field :internal_reference_cont, class: "form-control" %>
+              </div>
+            </li>
+            <li>
+              <div class="form-group">
+                <%= f.submit "Search", class: "btn btn-dark" %>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+<% end %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        Code
+      </th>
+      <th>
+        Internal Reference
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Supplied by
+      </th>
+      <th>
+        <%= sort_link(@q, :quantity) %>
+      </th>
+      <th>
+        <%= sort_link(@q, :price) %>
+      </th>
+      <th>
+        <a href="#stateFilter" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          State
+        </a>
+        <div class="collapse" id="stateFilter">
+          <%= search_form_for @q, class: "state-update-form" do |f| %>
+            <%= f.select :state_eq, Item.available_states.map {|state| [state.to_s.humanize, state]} + [["All", nil]], {}, class: "form-control state-change-dropdown" %>
+          <% end %>
+        </div>
+      </th>
+      <th>
+        Actions
+      </th>
+      <th>
+        History
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.code %></td>
+        <td><%= item.internal_reference %></td>
+        <td><%= item.description %></td>
+        <td><%= item.supplier_detail.try(:name) %></td>
+        <td><%= item.quantity %></td>
+        <td><%= item.price %></td>
+        <td><%= item.human_state_name %></td>
+        <td>
+          <%= link_to item.state_events.last, perform_path(item, event: item.state_events.last), method: :post %>
+        </td>
+        <td>
+          <a href="#history_<%= item.id %>" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            Show
+          </a>
+          <ol class="collapse" id="history_<%= item.id %>">
+            <% item.event_changes.each do |change| %>
+              <li>
+                <%= change %>
+              </li>
+            <% end %>
+          </ol>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

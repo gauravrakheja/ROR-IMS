@@ -17,3 +17,7 @@
 //= require popper
 //= require bootstrap
 //= require_tree .
+
+$(document).on("change", ".state-change-dropdown", function(){
+  $(".state-update-form").submit();
+});

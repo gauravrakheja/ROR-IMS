@@ -1,0 +1,52 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= render "supplier_details/form", supplier_details: SupplierDetail.new %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<%= form_with model: item do |f| %>
+  <div class="row">
+    <div class="form-group col-12">
+      <%= f.label :supplier_detail_id, "Supplier" %>
+      <%= f.select :supplier_detail_id, SupplierDetail.all.collect { |detail| [detail.name, detail.id] },{}, class: "form-control" %>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="form-group">
+        <%= f.label :internal_reference %>
+        <%= f.text_field :internal_reference, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="form-group">
+        <%= f.label :quantity %>
+        <%= f.number_field :quantity, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :price %>
+        <%= f.number_field :price, class: "form-control", step: :any %>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6">
+      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+        Create Supplier Details
+      </button>
+      <%= f.submit "Save", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

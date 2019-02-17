@@ -14,6 +14,8 @@ gem 'paper_trail'
 gem 'state_machine'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+gem "pry"
+gem 'ransack'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

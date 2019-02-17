@@ -10,9 +10,11 @@
   </head>
 
   <body>
-    <div class="container">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+    <div class="container mt-5">
+      <% flash.each do |key, value| %>
+        <%= content_tag :div, value, class: "alert alert-#{key}" %>
+      <% end %>
+      <%= yield %>
       <% if user_signed_in? %>
         <li>
           <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
@@ -22,7 +24,6 @@
           <%= link_to('Login', new_user_session_path)  %>
         </li>
       <% end %>
-      <%= yield %>
     </div>
   </body>
 </html>
