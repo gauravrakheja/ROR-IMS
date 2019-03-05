@@ -124,7 +124,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <div id='barcode-scanner-enter' class="barcode-container"></div>
+        <%#= react_component "BarcodeForm" %>
+        <div id="barcode">
+          <video id="barcodevideo" autoplay></video>
+          <canvas id="barcodecanvasg" ></canvas>
+        </div>
+        <canvas id="barcodecanvas" ></canvas>
+        <div id="result"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
