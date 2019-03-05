@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :supplier_detail, optional: true
   validates :code, :description, presence: true
+  validates :code, uniqueness: true
   has_paper_trail
 
   state_machine initial: :out_of_stock do
@@ -12,12 +13,8 @@ class Item < ApplicationRecord
       transition ordered: :in_stock
     end
 
-    event :process do
-      transition in_stock: :processing
-    end
-
     event :dispatch do
-      transition processing: :out_of_stock
+      transition in_stock: :out_of_stock
     end
   end
 
@@ -29,6 +26,15 @@ class Item < ApplicationRecord
     def available_states
       state_machine.states.keys
     end
+  end
+
+  def change_quantity!(increase)
+    if increase
+      self.quantity -= 1
+    else
+      self.quantity += 1
+    end
+    save
   end
 
   def event_changes

@@ -60,7 +60,7 @@
         </a>
         <div class="collapse" id="stateFilter">
           <%= search_form_for @q, class: "state-update-form" do |f| %>
-            <%= f.select :state_eq, Item.available_states.map {|state| [state.to_s.humanize, state]} + [["All", nil]], {}, class: "form-control state-change-dropdown" %>
+            <%= f.select :state_eq, [["All", nil]] + Item.available_states.map {|state| [state.to_s.humanize, state]}, {}, class: "form-control state-change-dropdown" %>
           <% end %>
         </div>
       </th>
@@ -83,7 +83,10 @@
         <td><%= item.price %></td>
         <td><%= item.human_state_name %></td>
         <td>
-          <%= link_to item.state_events.last, perform_path(item, event: item.state_events.last), method: :post %>
+          <%= form_with url:  perform_path(item) do |f| %>
+            <%= f.hidden_field :event, value: item.state_events.last %>
+            <%= f.submit item.state_events.last %>
+          <% end %>
         </td>
         <td>
           <a href="#history_<%= item.id %>" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -101,3 +104,52 @@
     <% end %>
   </tbody>
 </table>
+
+<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#entryModal">
+  Make entry
+</button>
+
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exitModal">
+  Dispatch
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="entryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add an item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id='barcode-scanner-enter' class="barcode-container"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dispatch item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id='barcode-scanner-exit' class="barcode-container"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

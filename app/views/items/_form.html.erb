@@ -22,6 +22,13 @@
       <%= f.label :supplier_detail_id, "Supplier" %>
       <%= f.select :supplier_detail_id, SupplierDetail.all.collect { |detail| [detail.name, detail.id] },{}, class: "form-control" %>
     </div>
+    <div class="form-group col-12">
+      <%= f.label :code %>
+      <%= f.text_field :code, value: params[:code] || item.code, disabled: true, class: "form-control" %>
+      <% if params[:code] %>
+        <%= f.hidden_field :code, value: params[:code] %>
+      <% end %>
+    </div>
     <div class="col-12 col-lg-6">
       <div class="form-group">
         <%= f.label :internal_reference %>

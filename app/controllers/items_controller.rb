@@ -30,6 +30,27 @@ class ItemsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def get_barcode
+    @item = Item.find_or_initialize_by(code: params[:code])
+    unless @item.persisted?
+      case params[:change]
+      when "increase"
+        @item.change_quantity!(true)
+        redirect_to new_item_path(code: params[:code])
+      when "decrease"
+        flash[:danger] = "The item does not exist"
+        redirect_back_or_to(root_path)
+      end
+    else
+      case params[:change]
+      when "increase"
+        @item.change_quantity!(true)
+      when "decrease"
+        @item.change_quantity!(false)
+      end
+    end
+  end
+
   def update
     @item = Item.find(params[:id])
     if @item.update(item_params)
@@ -47,6 +68,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:quantity, :price, :description, :internal_reference, :supplier_detail_id)
+    params.require(:item).permit(:quantity, :price, :description, :internal_reference, :supplier_detail_id, :code)
   end
 end
