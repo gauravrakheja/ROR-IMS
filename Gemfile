@@ -15,6 +15,7 @@ gem 'state_machine'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem "pry"
+gem "rb-readline"
 gem 'ransack'
 gem 'webpacker'
 gem 'react-rails'

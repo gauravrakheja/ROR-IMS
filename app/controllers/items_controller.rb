@@ -32,21 +32,27 @@ class ItemsController < ApplicationController
 
   def get_barcode
     @item = Item.find_or_initialize_by(code: params[:code])
-    unless @item.persisted?
+    if @item.persisted?
       case params[:change]
       when "increase"
+        flash[:success] = "Item #{@item.code} successfully added"
         @item.change_quantity!(true)
-        redirect_to new_item_path(code: params[:code])
+        redirect_back(fallback_location: root_path)
       when "decrease"
-        flash[:danger] = "The item does not exist"
-        redirect_back_or_to(root_path)
+        flash[:success] = "Item #{@item.code} successfully removed"
+        @item.change_quantity!(false)
+        redirect_back(fallback_location: root_path)
       end
     else
       case params[:change]
       when "increase"
+        @item.save
         @item.change_quantity!(true)
+        flash[:success] = "Item #{@item.code} successfully added"
+        redirect_to edit_item_path(@item)
       when "decrease"
-        @item.change_quantity!(false)
+        flash[:danger] = "The item with code #{@item.code} does not exist"
+        redirect_back(fallback_location: root_path)
       end
     end
   end

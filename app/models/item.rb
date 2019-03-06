@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :supplier_detail, optional: true
-  validates :code, :description, presence: true
+  validates :code, presence: true
   validates :code, uniqueness: true
   has_paper_trail
 
@@ -30,9 +30,9 @@ class Item < ApplicationRecord
 
   def change_quantity!(increase)
     if increase
-      self.quantity -= 1
-    else
       self.quantity += 1
+    else
+      self.quantity -= 1
     end
     save
   end
