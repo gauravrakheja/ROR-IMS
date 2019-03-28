@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   post "/items/:id/perform", to: "items#perform", as: :perform
   resources :supplier_details, only: %i{create update edit}
   root "pages#home"
+  resources :stock_check_reports, only: %i{new show index}
+  resources :stock_checks,only: %i{create}
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -47,7 +47,6 @@ class ItemsController < ApplicationController
       case params[:change]
       when "increase"
         @item.save
-        @item.change_quantity!(true)
         flash[:success] = "Item #{@item.code} successfully added"
         redirect_to edit_item_path(@item)
       when "decrease"

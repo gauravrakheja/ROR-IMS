@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_01_130704) do
+ActiveRecord::Schema.define(version: 2019_03_10_131203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,23 @@ ActiveRecord::Schema.define(version: 2019_03_01_130704) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["supplier_detail_id"], name: "index_items_on_supplier_detail_id"
+  end
+
+  create_table "stock_check_reports", force: :cascade do |t|
+    t.integer "number_of_items"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stock_checks", force: :cascade do |t|
+    t.bigint "item_id"
+    t.integer "quantity", default: 1
+    t.bigint "stock_check_report_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_stock_checks_on_item_id"
+    t.index ["stock_check_report_id"], name: "index_stock_checks_on_stock_check_report_id"
   end
 
   create_table "supplier_details", force: :cascade do |t|
@@ -60,4 +77,6 @@ ActiveRecord::Schema.define(version: 2019_03_01_130704) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "stock_checks", "items"
+  add_foreign_key "stock_checks", "stock_check_reports"
 end

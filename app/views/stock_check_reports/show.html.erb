@@ -1,0 +1,30 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>
+      Item code
+    </th>
+    <th>
+      Quantity during stock check
+    </th>
+    <th>
+      Quantity in the system
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @report.stock_checks.each do |check| %>
+      <tr>
+        <td>
+          <%= check.item.code %>
+        </td>
+        <td>
+          <%= check.quantity %>
+        </td>
+        <td>
+          <%= check.item.quantity %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

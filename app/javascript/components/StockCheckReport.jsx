@@ -1,18 +1,20 @@
 import React from 'react';
-import Quagga from 'quagga';
+import Quagga from "quagga";
+import StockCheck from "./StockCheck";
+import NullStockCheck from "./NullStockCheck";
 
-class BarcodeForm extends React.Component {
-  constructor(props){
-    super(props);
+class StockCheckReport extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.createItem = this.createItem.bind(this);
+    this.renderedStockChecks = this.renderedStockChecks.bind(this);
     this.state = {
-      code: ""
-    };
-    this.updateCode = this.updateCode.bind(this);
+      stockChecks: {},
+    }
   }
 
   orderByOccurence(arr) {
     let counts = {};
-    console.log('array', arr)
 
     arr.forEach(function(value){
       if(!counts[value]) {
@@ -26,11 +28,56 @@ class BarcodeForm extends React.Component {
     });
   }
 
-  componentDidMount() {
-    let container = this.props.container;
-    let updateCode = this.props.updateCode;
-    let orderByOccurence = this.orderByOccurence;
+  createItem(code){
+    let token = $('meta[name="csrf-token"]').attr('content');
+    let stockCheckReportId = this.props.stockCheckReportId;
+    let stockChecks = this.state.stockChecks;
+    $.ajax({
+      url: "/stock_checks",
+      type: "POST",
+      headers: {
+        'X-CSRF-Token': token
+      },
+      data: { code: code, stock_check_report_id: stockCheckReportId },
+      success: response => {
+        console.log("it worked!", response);
+        stockChecks[code] = response;
+        this.setState({stockChecks: stockChecks});
+      },
+      error: () => {
+        stockChecks[code] = {status: "not_found"};
+        this.setState({stockChecks: stockChecks});
+      }
+    });
+  }
 
+  renderedStockChecks(){
+    let rendered = [];
+    for (const key of Object.keys(this.state.stockChecks)) {
+      let stockCheck =  this.state.stockChecks[key];
+      if(stockCheck.status === "found"){
+        rendered.push(
+          <StockCheck
+            key     = {stockCheck.id}
+            scanned = {stockCheck.scanned}
+            stored  = {stockCheck.stored}
+            code    = {stockCheck.code}
+          />
+        )
+      } else {
+        rendered.push(
+          <NullStockCheck
+            code = {key}
+          />
+        )
+      }
+    }
+    return rendered;
+  }
+
+  componentDidMount(){
+    let createItem = this.createItem;
+    let orderByOccurence = this.orderByOccurence;
     if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
       let last_result = [];
       Quagga.init({
@@ -40,7 +87,7 @@ class BarcodeForm extends React.Component {
           frequency: 50,
           locate: true,
           numOfWorkers: navigator.hardwareConcurrency,
-          target: document.querySelector(`#${container}`)
+          target: document.querySelector(`#new_stock_check_report`)
         },
         debug: true,
         decoder: {
@@ -60,26 +107,24 @@ class BarcodeForm extends React.Component {
         if (last_result.length > 18) {
           let code = orderByOccurence(last_result)[0];
           last_result = [];
-          Quagga.stop();
-          updateCode(code);
+          console.log(code);
+          createItem(code);
         }
       });
     }
   }
 
-  updateCode(code){
-    this.setState({code: code})
-  }
-
   render() {
     return (
-      <div className="App">
-        <div
-          className="barcode-reader-container"
-          id={this.props.container}
-        />
+      <div className="row">
+        <div id="new_stock_check_report" className="col-6">
+        </div>
+        <div className="col-6 card-columns">
+          {this.renderedStockChecks()}
+        </div>
       </div>
     );
   }
 }
-export default BarcodeForm;
+
+export default StockCheckReport;

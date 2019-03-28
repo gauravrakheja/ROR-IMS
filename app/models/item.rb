@@ -4,6 +4,8 @@ class Item < ApplicationRecord
   validates :code, uniqueness: true
   has_paper_trail
 
+  has_many :stock_checks, inverse_of: :item
+
   state_machine initial: :out_of_stock do
     event :order do
       transition out_of_stock: :ordered

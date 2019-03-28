@@ -10,7 +10,8 @@
  </head>
 
   <body>
-    <div class="container mt-5">
+    <%= render "layouts/nav" %>
+    <div class="container-fluid mt-5">
       <% flash.each do |key, value| %>
         <%= content_tag :div, value, class: "alert alert-#{key}" %>
       <% end %>

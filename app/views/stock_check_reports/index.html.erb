@@ -1,0 +1,23 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        Report Generated On
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td>
+          <%= report.created_at.strftime("%D-%m-%Y") %>
+        </td>
+        <td>
+          <%= link_to "View Report", stock_check_report_path(report) %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
