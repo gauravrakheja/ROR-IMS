@@ -7,7 +7,9 @@ class StockChecksController < ApplicationController
         item_id: @item.id,
         stock_check_report_id: @report.id
       )
-      @stock_check.quantity = @stock_check.quantity + 1
+      unless @stock_check.quantity == 1
+        @stock_check.quantity = @stock_check.quantity + 1
+      end
       @stock_check.save
       render json: @stock_check.to_json, status: 200
     else
