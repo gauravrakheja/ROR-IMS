@@ -8,18 +8,6 @@ class ItemsController < ApplicationController
     @items = @q.result(distinct: true).includes(versions: :item)
   end
 
-  def perform
-    if params.has_key?(:event) && Item.available_events.include?(params[:event].to_sym)
-      @item = Item.find(params[:id])
-      if @item.public_send(params[:event])
-        flash[:succes] = "Item updated"
-      else
-        flash[:danger] = "Action could not be performed #{@item.errors.full_messages.join(', ')}"
-      end
-    end
-    redirect_back(fallback_location: root_path)
-  end
-
   def create
     @item = Item.new(item_params)
     if @item.save

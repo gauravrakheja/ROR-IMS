@@ -65,9 +65,6 @@
         </div>
       </th>
       <th>
-        Actions
-      </th>
-      <th>
         History
       </th>
     </tr>
@@ -82,12 +79,6 @@
         <td><%= item.quantity %></td>
         <td><%= item.price %></td>
         <td><%= item.human_state_name %></td>
-        <td>
-          <%= form_with url:  perform_path(item) do |f| %>
-            <%= f.hidden_field :event, value: item.state_events.last %>
-            <%= f.submit item.state_events.last %>
-          <% end %>
-        </td>
         <td>
           <a href="#history_<%= item.id %>" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
             Show

@@ -4,15 +4,13 @@ class Item < ApplicationRecord
   validates :code, uniqueness: true
   has_paper_trail
 
+  after_save :sync_state
+
   has_many :stock_checks, inverse_of: :item
 
   state_machine initial: :out_of_stock do
-    event :order do
-      transition out_of_stock: :ordered
-    end
-
-    event :receive do
-      transition ordered: :in_stock
+    event :enter do
+      transition out_of_stock: :in_stock
     end
 
     event :dispatch do
@@ -47,5 +45,15 @@ class Item < ApplicationRecord
         end
       end
     end.compact
+  end
+
+  private
+
+  def sync_state
+    if quantity == 0
+      dispatch
+    else
+      enter
+    end
   end
 end
