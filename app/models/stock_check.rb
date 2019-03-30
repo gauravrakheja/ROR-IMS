@@ -28,7 +28,7 @@ class StockCheck < ApplicationRecord
   private
 
   def sync_state
-    return if quantity > item.quantity
+    return if quantity < item.quantity
     if quantity == item.quantity
       pass
     elsif  quantity > item.quantity
