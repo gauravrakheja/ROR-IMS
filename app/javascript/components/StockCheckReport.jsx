@@ -62,6 +62,7 @@ class StockCheckReport extends React.Component {
             scanned = {stockCheck.scanned}
             stored  = {stockCheck.stored}
             code    = {stockCheck.code}
+            state   = {stockCheck.state}
           />
         )
       } else {

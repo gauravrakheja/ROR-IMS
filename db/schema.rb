@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_10_131203) do
+ActiveRecord::Schema.define(version: 2019_03_30_092706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2019_03_10_131203) do
     t.bigint "stock_check_report_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "state"
     t.index ["item_id"], name: "index_stock_checks_on_item_id"
     t.index ["stock_check_report_id"], name: "index_stock_checks_on_stock_check_report_id"
   end

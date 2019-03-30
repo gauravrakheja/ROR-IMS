@@ -1,3 +1,20 @@
+<h1>Report created on <%= @report.created_at.strftime("%B-%e-%Y") %></h1>
+<h3>
+  Status <%= @report.passed? ? "Passed" : "Failed" %>
+</h3>
+<ul>
+  <% if @report.failed_stock_checks.exists? %>
+    <li><b><%= @report.failed_stock_checks.size %></b> Failed</li> 
+    <small>(Quantity of items scanned exceeds quantity in warehouse)</small> 
+  <% end %>
+  <% if @report.pending_stock_checks.exists? %>
+    <li><b><%= @report.pending_stock_checks.size %></b> Pending</li>
+    <small>(Quantity of items scanned is less than the quantity in warehouse)</small>
+  <% end %>
+  <% if @report.passed_stock_checks.exists? %>
+    <li><b><%= @report.passed_stock_checks.size %></b> Passed</li>
+  <% end %>
+</ul>
 <table class="table table-striped">
   <thead>
   <tr>
@@ -9,6 +26,9 @@
     </th>
     <th>
       Quantity in the system
+    </th>
+    <th>
+      Status
     </th>
   </tr>
   </thead>
@@ -23,6 +43,9 @@
         </td>
         <td>
           <%= check.item.quantity %>
+        </td>
+        <td>
+          <%= check.state %>
         </td>
       </tr>
     <% end %>

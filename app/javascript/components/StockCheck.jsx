@@ -15,6 +15,7 @@ class StockCheck extends React.Component {
           <Card.Text>
             <b>Quantity scanned:</b> {this.props.scanned}<br/>
             <b>Quantity in warehouse:</b> {this.props.stored}<br/>
+            <b>Status:</b> {this.props.state}<br/>
           </Card.Text>
         </Card.Body>
       </Card>
