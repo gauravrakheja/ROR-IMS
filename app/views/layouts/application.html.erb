@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Inventory Manegement</title>
-    <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= csrf_meta_tags %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application' %>
@@ -19,10 +19,6 @@
       <% if user_signed_in? %>
         <li>
           <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-        </li>
-      <% else %>
-        <li>
-          <%= link_to('Login', new_user_session_path)  %>
         </li>
       <% end %>
     </div>
