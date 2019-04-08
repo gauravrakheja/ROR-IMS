@@ -7,7 +7,7 @@ class StockChecksController < ApplicationController
         item_id: @item.id,
         stock_check_report_id: @report.id
       )
-      unless @stock_check.quantity == 1
+      unless @stock_check.persisted?
         @stock_check.quantity = @stock_check.quantity + 1
       end
       @stock_check.save
