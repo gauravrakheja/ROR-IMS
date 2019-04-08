@@ -1,4 +1,6 @@
 class StockChecksController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def create
     @item = Item.find_by(code: params[:code])
     @report = StockCheckReport.find_by(id: params[:stock_check_report_id])
