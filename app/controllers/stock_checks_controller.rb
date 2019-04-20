@@ -9,15 +9,24 @@ class StockChecksController < ApplicationController
         item_id: @item.id,
         stock_check_report_id: @report.id
       )
-      if @stock_check.persisted?
-        @stock_check.quantity = @stock_check.quantity + 1
-      else
-        @stock_check.state = "pending"
-      end
-      @stock_check.save
-      render json: @stock_check.to_json, status: 200
     else
-      render json: { code: params[:code] }, status: 400
+      @stock_check = StockCheck.find_or_initialize_by(
+        code: params[:code],
+        stock_check_report_id: @report.id
+      )
     end
+    update_stock_check
+    render json: @stock_check.to_json, status: 200
+  end
+
+  private
+
+  def update_stock_check
+    if @stock_check.persisted?
+      @stock_check.quantity = @stock_check.quantity + 1
+    else
+      @stock_check.state = "pending"
+    end
+    @stock_check.save
   end
 end
