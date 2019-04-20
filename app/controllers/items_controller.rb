@@ -48,10 +48,11 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     if @item.update(item_params)
       flash[:success] = "Item successfully updated"
+      redirect_to items_path
     else
       flash[:danger] = "Item could not be updated #{@item.errors.full_messages.join(',')}"
+      redirect_back(fallback_location: root_path)
     end
-    redirect_back(fallback_location: root_path)
   end
 
   def edit

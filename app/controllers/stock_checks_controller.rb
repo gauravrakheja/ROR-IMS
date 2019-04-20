@@ -11,6 +11,8 @@ class StockChecksController < ApplicationController
       )
       if @stock_check.persisted?
         @stock_check.quantity = @stock_check.quantity + 1
+      else
+        @stock_check.state = "pending"
       end
       @stock_check.save
       render json: @stock_check.to_json, status: 200

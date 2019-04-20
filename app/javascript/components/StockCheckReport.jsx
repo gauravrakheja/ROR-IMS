@@ -68,6 +68,7 @@ class StockCheckReport extends React.Component {
       } else {
         rendered.push(
           <NullStockCheck
+            key = {key}
             code = {key}
           />
         )
