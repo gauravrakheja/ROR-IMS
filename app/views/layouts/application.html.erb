@@ -7,13 +7,14 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application' %>
+    <%= content_for :head_extra if content_for? :head_extra %>
  </head>
 
   <body>
     <%= render "layouts/nav" %>
     <div class="container-fluid mt-5">
       <% flash.each do |key, value| %>
-        <%= content_tag :div, value, class: "alert alert-#{key}" %>
+        <%= content_tag :div, value, class: "alert alert-#{key}", role: "alert" %>
       <% end %>
       <%= yield %>
     </div>

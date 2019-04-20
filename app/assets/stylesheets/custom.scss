@@ -9,14 +9,33 @@
 }
 
 .button-grid{
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-
-  button {
-    height: 100% !important;
+  @media screen and (min-width: 1000px) {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+  }
+  button{
+    margin: 5px;
   }
 }
 
 .full-height{
   height: 100% !important;
+}
+
+.btn{
+  @media screen and (max-width: 1000px) {
+    width: 100% !important;
+  }
+}
+
+.with-top-margin{
+  @media screen and (max-width: 1000px) {
+    margin-top: 50%;
+  }
+}
+
+*{
+  @media screen and (max-width: 1000px) {
+    font-size: 40px !important;
+  }
 }

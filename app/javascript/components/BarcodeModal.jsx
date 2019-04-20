@@ -43,7 +43,7 @@ class BarcodeModal extends React.Component {
           {this.props.buttonTitle}
         </Button>
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal show={this.state.show} onHide={this.handleClose} centered>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.heading}</Modal.Title>
           </Modal.Header>

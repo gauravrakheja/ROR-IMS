@@ -1,3 +1,7 @@
+<%= content_for :head_extra do %>
+  <meta name="turbolinks-visit-control" content="reload">
+<% end %>
+
 <%= search_form_for @q do |f| %>
   <ul class="list-unstyled components">
         <li class="active">
@@ -33,8 +37,9 @@
         </li>
       </ul>
 <% end %>
-<table class="table table-striped">
-  <thead>
+<div class="table-responsive">
+  <table class="table table-stripped">
+    <thead>
     <tr>
       <th>
         Code
@@ -68,8 +73,8 @@
         History
       </th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <% @items.each do |item| %>
       <tr>
         <td><%= item.code %></td>
@@ -93,8 +98,9 @@
         </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 
 <%= form_with model: @item, url: get_barcode_items_path, html: { id: "get-code-form" } do |f| %>
   <%= f.hidden_field :code %>
