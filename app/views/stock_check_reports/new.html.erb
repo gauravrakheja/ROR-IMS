@@ -1,4 +1,5 @@
 <div class="full-height">
   <h1>Create a new stock check report</h1>
   <%= react_component "StockCheckReport", stockCheckReportId: @report.id %>
+  <%= link_to "Cancel", stock_check_report_path(@report.id), method: :delete %>
 </div>

@@ -2,6 +2,9 @@
   <thead>
     <tr>
       <th>
+        Report ID
+      </th>
+      <th>
         Report Generated On
       </th>
       <th>
@@ -11,6 +14,9 @@
   <tbody>
     <% @reports.each do |report| %>
       <tr>
+        <td>
+          <%= report.id %>
+        </td>
         <td>
           <%= report.created_at.strftime("%D-%m-%Y") %>
         </td>

@@ -1,5 +1,5 @@
 class StockCheckReport < ApplicationRecord
-  has_many :stock_checks, inverse_of: :stock_check_report
+  has_many :stock_checks, inverse_of: :stock_check_report, dependent: :destroy
   has_many :failed_stock_checks,
            -> { where(state: "failed") },
            class_name: "StockCheck",
