@@ -12,6 +12,10 @@ class StockCheckReport < ApplicationRecord
            -> { where(state: "pending") },
            class_name: "StockCheck",
            inverse_of: :stock_check_report
+  has_many :item_not_found_stock_checks,
+           -> { where(state: "item_not_found") },
+           class_name: "StockCheck",
+           inverse_of: :stock_check_report
 
   def passed?
     stock_checks.size == passed_stock_checks.size

@@ -43,6 +43,8 @@ class StockCheck < ApplicationRecord
   private
 
   def sync_state
+    not_found unless item.present?
+
     return if (!item.present? || quantity < item.quantity)
 
     if quantity == item.quantity

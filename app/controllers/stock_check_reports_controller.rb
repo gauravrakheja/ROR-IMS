@@ -10,4 +10,10 @@ class StockCheckReportsController < ApplicationController
   def show
     @report = StockCheckReport.find(params[:id])
   end
+
+  def destroy
+    @report = StockCheckReport.find(params[:id])
+    @report.destroy
+    redirect_to stock_check_reports_path
+  end
 end

@@ -14,6 +14,10 @@
   <% if @report.passed_stock_checks.exists? %>
     <li><b><%= @report.passed_stock_checks.size %></b> Passed</li>
   <% end %>
+  <% if @report.item_not_found_stock_checks.exists? %>
+    <li><b><%= @report.item_not_found_stock_checks.size %></b> Item not found</li>
+    <small>(Code was scanned but no item exists in the warehouse)</small>
+<% end %>
 </ul>
 <table class="table table-striped">
   <thead>
@@ -36,18 +40,19 @@
     <% @report.stock_checks.each do |check| %>
       <tr>
         <td>
-          <%= check.item.code %>
+          <%= check.item.try(:code) || check.code %>
         </td>
         <td>
           <%= check.quantity %>
         </td>
         <td>
-          <%= check.item.quantity %>
+          <%= check.item.try(:quantity) %>
         </td>
         <td>
-          <%= check.state %>
+          <%= check.human_state_name %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= link_to "Delete report", stock_check_report_path, method: :delete %>
