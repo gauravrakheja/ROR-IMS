@@ -1,7 +1,7 @@
 import React from 'react';
 import Quagga from "quagga";
-import StockCheck from "./StockCheck";
-import NullStockCheck from "./NullStockCheck";
+import { Table } from 'react-bootstrap';
+
 
 class StockCheckReport extends React.Component {
   constructor(props, context) {
@@ -57,21 +57,21 @@ class StockCheckReport extends React.Component {
       let stockCheck =  this.state.stockChecks[key];
       if(stockCheck.status === "found"){
         rendered.push(
-          <StockCheck
-            key     = {stockCheck.id}
-            scanned = {stockCheck.scanned}
-            stored  = {stockCheck.stored}
-            code    = {stockCheck.code}
-            state   = {stockCheck.state}
-          />
+          <tr>
+            <td>{stockCheck.code}</td>
+            <td>{stockCheck.scanned}</td>
+            <td>{stockCheck.stored}</td>
+            <td>{stockCheck.state}</td>
+          </tr>
         )
       } else {
         rendered.push(
-          <NullStockCheck
-            key     = {stockCheck.id}
-            code    = {stockCheck.code}
-            scanned = {stockCheck.scanned}
-          />
+          <tr>
+            <td>{stockCheck.code}</td>
+            <td>{stockCheck.scanned}</td>
+            <td>0</td>
+            <td>{stockCheck.state}</td>
+          </tr>
         )
       }
     }
@@ -121,10 +121,22 @@ class StockCheckReport extends React.Component {
   render() {
     return (
       <div className="row">
-        <div id="new_stock_check_report" className="col-6">
+        <div id="new_stock_check_report" align="center" className="col-lg-6 col-12">
         </div>
-        <div className="col-6 card-columns">
-          {this.renderedStockChecks()}
+        <div className="col-lg-6 col-12">
+          <Table striped bordered hover>
+            <thead>
+            <tr>
+              <th>Code</th>
+              <th>Quantity Scanned</th>
+              <th>Quantity in warehouse</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {this.renderedStockChecks()}
+            </tbody>
+          </Table>
         </div>
       </div>
     );
