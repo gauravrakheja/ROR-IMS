@@ -1,0 +1,17 @@
+<ul>
+  <% if report.failed_stock_checks.exists? %>
+    <li><b><%= report.failed_stock_checks.size %></b> Failed</li>
+    <small>(Quantity of items scanned exceeds quantity in warehouse)</small>
+  <% end %>
+  <% if report.pending_stock_checks.exists? %>
+    <li><b><%= report.pending_stock_checks.size %></b> Pending</li>
+    <small>(Quantity of items scanned is less than the quantity in warehouse)</small>
+  <% end %>
+  <% if report.passed_stock_checks.exists? %>
+    <li><b><%= report.passed_stock_checks.size %></b> Passed</li>
+  <% end %>
+  <% if report.item_not_found_stock_checks.exists? %>
+    <li><b><%= report.item_not_found_stock_checks.size %></b> Item not found</li>
+    <small>(Code was scanned but no item exists in the warehouse)</small>
+  <% end %>
+</ul>

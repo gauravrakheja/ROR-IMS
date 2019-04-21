@@ -1,0 +1,26 @@
+<div class="jumbotron">
+  <h1 align="center" class="display-4">Welcome to your warehouse</h1>
+  <p>
+    Total Items in warehouse:
+    <b><%= Item.total_count %></b>
+    <br/>
+
+    Unique codes in warehouse:
+    <b><%= Item.count %></b>
+    <br/>
+
+    Value in warehouse:
+    <b><%= Item.total_value %></b>
+    <br/>
+  </p>
+  <hr>
+  <p>
+    Last Stock Check Report
+    Done on:
+    <b><%= @report.created_at.strftime("%c") %></b>
+    <%= render 'stock_check_reports/report_breakdown', report: @report %>
+  </p>
+</div>
+
+
+

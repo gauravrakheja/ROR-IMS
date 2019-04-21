@@ -26,6 +26,18 @@ class Item < ApplicationRecord
     def available_states
       state_machine.states.keys
     end
+
+    def total_count
+      sum(:quantity)
+    end
+
+    def total_value
+      all.map(&:value).sum
+    end
+  end
+
+  def value
+    price.to_f * quantity
   end
 
   def change_quantity!(increase)
