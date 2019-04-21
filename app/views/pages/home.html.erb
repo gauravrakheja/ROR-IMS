@@ -15,10 +15,14 @@
   </p>
   <hr>
   <p>
-    Last Stock Check Report
-    Done on:
-    <b><%= @report.created_at.strftime("%c") %></b>
-    <%= render 'stock_check_reports/report_breakdown', report: @report %>
+    <% if @report.present? %>
+      Last Stock Check Report
+      Done on:
+      <b><%= @report.created_at.strftime("%c") %></b>
+      <%= render 'stock_check_reports/report_breakdown', report: @report %>
+    <% else %>
+      No Stock Check report Generated.
+    <% end %>
   </p>
 </div>
 
