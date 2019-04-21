@@ -55,7 +55,6 @@ class BarcodeForm extends React.Component {
       Quagga.onDetected(function(result) {
         let last_code = result.codeResult.code;
         last_result.push(last_code);
-        new Audio('/bells.wav').play();
         if (last_result.length > 100) {
           let code = orderByOccurence(last_result)[0];
           last_result = [];
