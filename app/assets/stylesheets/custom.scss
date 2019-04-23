@@ -13,9 +13,9 @@ canvas {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
   }
-  button{
-    margin: 5px;
-  }
+}
+.btn{
+  margin: 10px;
 }
 
 .full-height{

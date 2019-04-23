@@ -40,6 +40,12 @@ class StockCheck < ApplicationRecord
     end
   end
 
+  def code_or_item_code
+    return code unless item.present?
+
+    item.code
+  end
+
   private
 
   def sync_state

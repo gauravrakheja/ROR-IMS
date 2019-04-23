@@ -1,6 +1,6 @@
 <h1>Report created on <%= @report.created_at.strftime("%B-%e-%Y") %></h1>
 <h3>
-  Status <%= @report.passed? ? "Passed" : "Failed" %>
+  Status <%= @report.status %>
 </h3>
 <%= render 'report_breakdown', report: @report %>
 <table class="table table-striped">
@@ -21,22 +21,25 @@
   </tr>
   </thead>
   <tbody>
-    <% @report.stock_checks.each do |check| %>
-      <tr>
-        <td>
-          <%= check.item.try(:code) || check.code %>
-        </td>
-        <td>
-          <%= check.quantity %>
-        </td>
-        <td>
-          <%= check.item.try(:quantity) %>
-        </td>
-        <td>
-          <%= check.human_state_name %>
-        </td>
-      </tr>
-    <% end %>
+  <% @report.stock_checks.each do |check| %>
+    <tr>
+      <td>
+        <%= check.code_or_item_code %>
+      </td>
+      <td>
+        <%= check.quantity %>
+      </td>
+      <td>
+        <%= check.item.try(:quantity) %>
+      </td>
+      <td>
+        <%= check.human_state_name %>
+      </td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
-<%= link_to "Delete report", stock_check_report_path(@report), method: :delete %>
+
+<%= link_to "Download CSV", stock_check_report_path(@report, format: :csv), class: "btn btn-primary"%>
+<%= link_to "Download Excel", stock_check_report_path(@report, format: :xlsx), class: "btn btn-success"%>
+<%= link_to "Delete report", stock_check_report_path(@report), class: "btn btn-danger", method: :delete %>

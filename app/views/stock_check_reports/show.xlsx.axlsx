@@ -1,0 +1,14 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "REPORT-#{@report.id}") do |sheet|
+  sheet.add_row %w{Item\ Code Quantity\ During\ Stock\ Check Quantity\ in\ Warehouse Status}
+
+  @report.stock_checks.each do |stock_check|
+    sheet.add_row [
+      stock_check.code_or_item_code,
+      stock_check.quantity,
+      stock_check.item.try(:quantity),
+      stock_check.human_state_name
+    ]
+  end
+end

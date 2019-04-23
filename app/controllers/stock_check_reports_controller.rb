@@ -9,6 +9,11 @@ class StockCheckReportsController < ApplicationController
 
   def show
     @report = StockCheckReport.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.csv { send_data @report.to_csv }
+      format.xlsx
+    end
   end
 
   def destroy
