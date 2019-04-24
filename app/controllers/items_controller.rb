@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  helper_method :search_params
+
   def new
     @item = Item.new
   end
@@ -6,6 +8,11 @@ class ItemsController < ApplicationController
   def index
     @q = Item.ransack(params[:q])
     @items = @q.result(distinct: true).includes(versions: :item)
+    respond_to do |format|
+      format. html
+      format.csv { send_data @items.to_csv }
+      format.xlsx
+    end
   end
 
   def create
@@ -60,6 +67,10 @@ class ItemsController < ApplicationController
   end
 
   private
+
+  def search_params
+    params.permit(:q)
+  end
 
   def item_params
     params.require(:item).permit(:quantity, :price, :description, :internal_reference, :supplier_detail_id, :code)

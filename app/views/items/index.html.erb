@@ -123,4 +123,6 @@
                       buttonTitle: "Dispatch Item",
                       buttonClass: "danger"
   %>
+  <%= link_to "Download Inventory Excel", items_path(format: :xlsx, q: search_params), class: "btn btn-success"%>
+  <%= link_to "Download Inventory CSV", items_path(format: :csv, q: search_params), class: "btn btn-primary" %>
 </div>

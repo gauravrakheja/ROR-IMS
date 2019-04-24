@@ -10,8 +10,7 @@ canvas {
 
 .button-grid{
   @media screen and (min-width: 1000px) {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
+    display: flex;
   }
 }
 .btn{

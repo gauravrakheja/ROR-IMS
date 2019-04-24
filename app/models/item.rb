@@ -1,3 +1,4 @@
+require "csv"
 class Item < ApplicationRecord
   belongs_to :supplier_detail, optional: true
   validates :code, presence: true
@@ -21,6 +22,23 @@ class Item < ApplicationRecord
   class << self
     def available_events
       state_machine.events.keys
+    end
+
+    def to_csv(options={})
+      CSV.generate(options) do |csv|
+        csv << %w{Code Internal\ Reference Description Supplied\ by Quantity Price State}
+        all.each do |item|
+          csv << [
+            item.code,
+            item.internal_reference,
+            item.description,
+            item.supplier_detail.try(:name),
+            item.quantity,
+            item.price,
+            item.human_state_name
+          ]
+        end
+      end
     end
 
     def available_states

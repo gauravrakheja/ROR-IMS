@@ -1,0 +1,17 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Inventory-#{Date.today}") do |sheet|
+  sheet.add_row %w{Code Internal\ Reference Description Supplied\ by Quantity Price State}
+
+  @items.each do |item|
+    sheet.add_row [
+      item.code,
+      item.internal_reference,
+      item.description,
+      item.supplier_detail.try(:name),
+      item.quantity,
+      item.price,
+      item.human_state_name
+    ]
+  end
+end
